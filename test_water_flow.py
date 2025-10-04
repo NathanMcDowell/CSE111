@@ -1,8 +1,7 @@
 import pytest
 from pytest import approx
-from water_flow import water_column_height
-from water_flow import pressure_gain_from_water_height
-from water_flow import pressure_loss_from_pipe
+from water_flow import water_column_height, pressure_gain_from_water_height, pressure_loss_from_pipe, pressure_loss_from_fittings
+
 def test_water_column_height():
     assert water_column_height(0, 0) == approx(0, abs = 0.001)
     assert water_column_height(0, 10) == approx(7.5, abs = 0.001)
@@ -15,12 +14,19 @@ def test_pressure_gain_from_water_height():
     assert pressure_gain_from_water_height(50) == approx(489.450, abs = 0.001)
 
 def test_pressure_loss_from_pipe():
-    assert pressure_loss_from_pipe(0.048692, 0, 0.018, 1.75) == approx(0, abs = 0.001)
-    assert pressure_loss_from_pipe(0.048692, 200, 0, 1.75) == approx(0, abs = 0.001)
-    assert pressure_loss_from_pipe(0.048692, 200, 0.018, 0) == approx(0, abs = 0.001)
-    assert pressure_loss_from_pipe(0.048692, 200, 0.018, 1.75) == approx(-113.008, abs = 0.001)
-    assert pressure_loss_from_pipe(0.048692, 200, 0.018, 1.65) == approx(-100.462, abs = 0.001)
-    assert pressure_loss_from_pipe(0.28687, 1000, 0.013, 1.65) == approx(-61.576, abs = 0.001)
-    assert pressure_loss_from_pipe(0.28687, 1800.75, 0.013, 1.65) == approx(-110.884, abs = 0.001)
+    assert pressure_loss_from_pipe(0.048692, 0, 0.018, 1.75) == approx(0, abs= 0.001)
+    assert pressure_loss_from_pipe(0.048692, 200, 0, 1.75) == approx(0, abs= 0.001)
+    assert pressure_loss_from_pipe(0.048692, 200, 0.018, 0) == approx(0, abs= 0.001)
+    assert pressure_loss_from_pipe(0.048692, 200, 0.018, 1.75) == approx(-113.008, abs= 0.001)
+    assert pressure_loss_from_pipe(0.048692, 200, 0.018, 1.65) == approx(-100.462, abs= 0.001)
+    assert pressure_loss_from_pipe(0.28687, 1000, 0.013, 1.65) == approx(-61.576, abs= 0.001)
+    assert pressure_loss_from_pipe(0.28687, 1800.75, 0.013, 1.65) == approx(-110.884, abs= 0.001)
 
+def test_pressure_loss_from_fittings():
+    assert pressure_loss_from_fittings(0, 3) == approx(0, abs= 0.001)
+    assert pressure_loss_from_fittings(1.65, 0) == approx(0, abs= 0.001)
+    assert pressure_loss_from_fittings(1.65, 2) == approx(-0.109, abs= 0.001)
+    assert pressure_loss_from_fittings(1.75, 2) == approx(-0.122, abs= 0.001)
+    assert pressure_loss_from_fittings(1.75, 5) == approx(-0.306, abs= 0.001)
+    
 pytest.main(["-v", "--tb=line", "-rN", __file__])

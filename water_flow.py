@@ -12,6 +12,10 @@ def pressure_loss_from_pipe(pipe_diameter,
         pipe_length, friction_factor, fluid_velocity):
     pressure = (-friction_factor * pipe_length * 998.2 * fluid_velocity ** 2) / (2000 * pipe_diameter)
     return pressure
+def pressure_loss_from_fittings(
+        fluid_velocity, quantity_fittings):
+    lost_pressure = (-0.04 * 998.2 * (fluid_velocity ** 2) * quantity_fittings) / 2000
+    return lost_pressure
 
 def main():
     print(pressure_loss_from_pipe(0.048692, 0, 0.018, 1.75))
