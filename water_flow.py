@@ -17,6 +17,16 @@ def pressure_loss_from_fittings(
     lost_pressure = (-0.04 * 998.2 * (fluid_velocity ** 2) * quantity_fittings) / 2000
     return lost_pressure
 
+def reynolds_number(hydraulic_diameter, fluid_velocity):
+    r_number = (998.2 * hydraulic_diameter * fluid_velocity) / 0.0010016
+    return r_number
+
+def pressure_loss_from_pipe_reduction(larger_diameter,
+        fluid_velocity, reynolds_number, smaller_diameter):
+    k = (0.1 + (50 / reynolds_number)) * ((larger_diameter / smaller_diameter) ** 4 - 1)
+    lost_pressure = (-k * 998.2 * fluid_velocity ** 2) / 2000
+    return lost_pressure
+
 def main():
     print(pressure_loss_from_pipe(0.048692, 0, 0.018, 1.75))
     print(pressure_loss_from_pipe(0.048692, 200, 0, 1.75))
