@@ -139,11 +139,15 @@ def compute_molar_mass(symbol_quantity_list, periodic_table_dict):
         # Get the atomic mass for the symbol from the dictionary.
         # Multiply the atomic mass by the quantity.
         # Add the product into the total molar mass.
+    total_molar_mass = 0
     for inner_list in symbol_quantity_list:
-        print(inner_list[0])
-        print(periodic_table_dict[inner_list[0]])
+        element_symbol = inner_list[SYMBOL_INDEX]
+        quantity = inner_list[QUANTITY_INDEX]
+        atomic_mass = periodic_table_dict[element_symbol][ATOMIC_MASS_INDEX]
+        molar_mass = round(atomic_mass * quantity, 5)
+        total_molar_mass += molar_mass
     # Return the total molar mass.
-    return
+    return total_molar_mass
 
 
 def main():
@@ -151,7 +155,7 @@ def main():
     # Get a chemical formula for a molecule from the user.
     user_chemical = input("Input a chemical formula: ")
     # Get the mass of a chemical sample in grams from the user.
-    user_chemical_mass = input("What is the mass of this chemical? ")
+    user_chemical_mass = float(input("What is the mass of this chemical? "))
     # Call the make_periodic_table function and
     # store the periodic table in a variable.
     periodic_table = make_periodic_table()
@@ -163,12 +167,13 @@ def main():
     
     # Call the compute_molar_mass function to compute the
     # molar mass of the molecule from the compound list.
-    compute_molar_mass(parsed_elements, periodic_table)
+    molar_mass = compute_molar_mass(parsed_elements, periodic_table)
     # Compute the number of moles in the sample.
-
+    number_of_moles = round(user_chemical_mass / molar_mass, 5)
     # Print the molar mass.
-
+    print(f"{molar_mass} grams/mole")
     # Print the number of moles.
+    print(f"{number_of_moles} moles")
 
 if __name__ == "__main__":
     main()
