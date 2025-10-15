@@ -43,6 +43,7 @@ def main():
     # for city in city_data.items():
     #     print(city)
     print(city_data)
+    
 if __name__ == '__main__':
     main()
 
