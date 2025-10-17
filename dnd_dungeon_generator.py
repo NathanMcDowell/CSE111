@@ -48,7 +48,13 @@ def gen_corridor():
     corridor_list = read_data_from_csv_into_list("dnd_corridor_l.csv")
     print(f"Corridor dictionary: {corridor_dict}")
     print(f"Corridor list: {corridor_list}")
-
+    num = random.choice(range(1, 20))
+    print(f"Random number : {num}")
+    for list in corridor_list:
+        for i in range(int(list[0]), (int(list[1])+1)):
+            if num == i:
+                chosen = list
+    print(chosen)
 def gen_chamber():
     ''''''
     
@@ -65,12 +71,11 @@ def main():
     while running:
         ''''''
         print()
-        print("0. Quit")
-        print("1. Starting area")
-        print("2. Corridor")
-        print("What number would you like to generate?")
-        print()
-        called_gen = input()
+        print("#0 Quit")
+        print("#1 Starting area")
+        print("#2 Corridor")
+        print("What would you like to generate?")
+        called_gen = input("# ")
         if called_gen == "0":
             running = False
             print("You have quit.")

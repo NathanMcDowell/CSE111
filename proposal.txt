@@ -36,4 +36,4 @@ perform a single task?
 
 6. Will you write test functions to test at least two of your program
 functions?
-    
+    Yes I will to make sure the dictionaries and lists are made and saved properly.
