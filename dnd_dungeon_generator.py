@@ -46,8 +46,6 @@ def gen_corridor():
     Optional parameter that decides if the hallway size is predefined.'''
     corridor_dict = read_data_from_csv_into_dictionary("dnd_corridor_d.csv")
     corridor_list = read_data_from_csv_into_list("dnd_corridor_l.csv")
-    print(f"Corridor dictionary: {corridor_dict}")
-    print(f"Corridor list: {corridor_list}")
     num = random.choice(range(1, 20))
     print(f"Random number : {num}")
     for list in corridor_list:
