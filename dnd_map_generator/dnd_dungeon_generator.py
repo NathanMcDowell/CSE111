@@ -33,10 +33,7 @@ def read_data_from_csv_into_list(filename):
         
         for line in reader:
             final_list.append(line)
-    # with open (filename, 'rt') as filehandle:
-    #     # header_line = next(filehandle)
-    #     for line in filehandle:
-    #         list.append(line)
+    
     return final_list
 
 def get_random_key(percent_lists, die_size):
@@ -60,17 +57,28 @@ def gen_corridor():
     Optional parameter that decides if the hallway size is predefined.'''
     corridor_dict = read_data_from_csv_into_dictionary("dnd_map_generator\dnd_corridor_d.csv")
     corridor_list = read_data_from_csv_into_list("dnd_map_generator\dnd_corridor_l.csv")
-    # corridor_width_dict = read_data_from_csv_into_dictionary("dnd_map_generator\dnd_corridor_size_d.csv")
-    # corridor_width_list = read_data_from_csv_into_list("dnd_map_generator\dnd_corridor_size_l.csv")
+    
     key = get_random_key(corridor_list, 20)
     print(corridor_dict[key])
-    # if key 
-        # width_key = get_random_key(corridor_width_list, 20)
-        # print(corridor_width_dict[width_key])
+    
+def gen_corridor_size(size_range):
+    corridor_size_dict = read_data_from_csv_into_dictionary("dnd_map_generator\dnd_corridor_size_d.csv")
+    corridor_size_list = read_data_from_csv_into_list("dnd_map_generator\dnd_corridor_size_l.csv")
+    
+    if size_range == "y":
+        die_size = 12
+    else:
+        die_size = 20
+    size_key = get_random_key(corridor_size_list, die_size)
+    print(f'Size: {corridor_size_dict[size_key]}')
 
 def gen_chamber():
     ''''''
+    chamber_dict = read_data_from_csv_into_dictionary("dnd_map_generator\dnd_chamber_d.csv")
+    chamber_list = read_data_from_csv_into_list("dnd_map_generator\dnd_chamber_l.csv")
     
+    key = get_random_key(chamber_list, 20)
+    print(chamber_dict[key])
 
 def gen_door():
     ''''''
@@ -87,16 +95,25 @@ def main():
         print("#0 Quit")
         print("#1 Starting area")
         print("#2 Corridor")
+        print("#3 Corridor size")
+        print("#4 Chamber")
         print("What would you like to generate?")
         called_gen = input("# ")
         if called_gen == "0":
             running = False
             print("You have quit.")
         elif called_gen == "1":
+            
             print(gen_starting_area())
         elif called_gen == "2":
             gen_corridor()
 
+        elif called_gen == "3":
+            size_range = input("Branch off corridor? (y/n) ")
+            gen_corridor_size(size_range)
+
+        elif called_gen == "4":
+            gen_chamber()
 
 if __name__ == '__main__':
     main()
