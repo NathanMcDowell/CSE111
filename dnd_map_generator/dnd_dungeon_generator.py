@@ -78,11 +78,11 @@ def gen_corridor_size(size_range):
 
 def gen_chamber():
     ''''''
-    chamber_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_d.csv")
+    chamber_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_d.csv",2)
     chamber_list = read_data_from_csv_into_list("dnd_map_generator/dnd_chamber_l.csv")
-    
+    # WAS WORKING HERE TO MAKE CHAMBER DICTIONARY HOLD SIZE REFERENCE FOR CHAMBER EXITS
     key = get_random_key(chamber_list, 20)
-    print(chamber_dict[key])
+    print(chamber_dict[key][0])
 
 def gen_chamber_exits():
     chamber_exits_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_exits_d.csv", 2)
@@ -104,8 +104,7 @@ def gen_stairs():
 
 def main():
     ''''''
-    gen_chamber_exits()
-    running = False
+    running = True
     while running:
         ''''''
         print()
