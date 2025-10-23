@@ -150,6 +150,7 @@ def main():
         print("#5 Doors- Just for testing")
         print("What would you like to generate?")
         called_gen = input("#")
+        print()
         if called_gen == "0":
             running = False
             print("You have quit.")
