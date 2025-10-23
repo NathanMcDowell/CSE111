@@ -79,16 +79,18 @@ def gen_corridor_size(size_range):
     print(f'Size: {corridor_size_dict[size_key]}')
 
 def gen_chamber():
-    ''''''
+    '''Randomly gets a size and shape for the chamber, then gets the number of exits.'''
     chamber_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_d.csv", 2)
     chamber_list = read_data_from_csv_into_list("dnd_map_generator/dnd_chamber_l.csv")
     # Currently returning None
     key = get_random_key(chamber_list, 20)
-    print(f'chamber: {chamber_dict[key][0]}') 
-    print(f'chamber size: {chamber_dict[key][1]}')
-    print(gen_chamber_exits(int(chamber_dict[key][1])))
+    print(chamber_dict[key][0]) 
+    exit_count = gen_chamber_exits(int(chamber_dict[key][1]))
+    print(f'# of exits: {exit_count}')
 
 def gen_chamber_exits(chamber_size):
+    '''Intakes the size of the chamber it is making exits for.'''
+    
     chamber_exits_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_exits_d.csv", 2)
     chamber_exits_list = read_data_from_csv_into_list("dnd_map_generator/dnd_chamber_exits_l.csv")
     key = get_random_key(chamber_exits_list, 20)
@@ -99,6 +101,17 @@ def gen_chamber_exits(chamber_size):
     if chamber_size == 2:
         return chamber_exits_dict[key][1]
     
+def gen_exit_types(exit_count):
+    door_count = 0
+    corridor_count = 0
+    for exit in exit_count:
+        one_or_two = random.choice(range(1, 3))
+        if one_or_two == 1:
+            door_count += 1
+        elif one_or_two == 2:
+            corridor_count += 1
+    print(door_count, corridor_count)
+    return door_count, corridor_count
 
 def gen_doors():
     ''''''
@@ -123,9 +136,8 @@ def main():
         print("#3 Corridor size")
         print("#4 Chamber")
         print("#5 Doors- Just for testing")
-        print("#6 Chamber exits- Just for testing")
         print("What would you like to generate?")
-        called_gen = input("# ")
+        called_gen = input("#")
         if called_gen == "0":
             running = False
             print("You have quit.")
@@ -146,7 +158,8 @@ def main():
             gen_doors()
         
         elif called_gen == "6":
-            gen_chamber_exits()
+            ''''''
+            gen_exit_types(range(1, 10))
 
 if __name__ == '__main__':
     main()
