@@ -13,6 +13,8 @@ LOW_CHANCE_INDEX = 0
 HIGH_CHANCE_INDEX = 1
 KEY_INDEX = 2
 
+#
+
 def read_data_from_csv_into_dictionary(filename, value_count = 1):
     '''Read date from the file poited to by filename and 
     place that data in a dictionary and return it.'''
@@ -78,18 +80,25 @@ def gen_corridor_size(size_range):
 
 def gen_chamber():
     ''''''
-    chamber_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_d.csv",2)
+    chamber_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_d.csv", 2)
     chamber_list = read_data_from_csv_into_list("dnd_map_generator/dnd_chamber_l.csv")
-    # WAS WORKING HERE TO MAKE CHAMBER DICTIONARY HOLD SIZE REFERENCE FOR CHAMBER EXITS
+    # Currently returning None
     key = get_random_key(chamber_list, 20)
-    print(chamber_dict[key][0])
+    print(f'chamber: {chamber_dict[key][0]}') 
+    print(f'chamber size: {chamber_dict[key][1]}')
+    print(gen_chamber_exits(int(chamber_dict[key][1])))
 
-def gen_chamber_exits():
+def gen_chamber_exits(chamber_size):
     chamber_exits_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_exits_d.csv", 2)
     chamber_exits_list = read_data_from_csv_into_list("dnd_map_generator/dnd_chamber_exits_l.csv")
-
-    print(chamber_exits_dict)
-    print(chamber_exits_list)
+    key = get_random_key(chamber_exits_list, 20)
+    print("Chamber exits")
+    print(f'key: {key}')
+    if chamber_size == 1:
+        return chamber_exits_dict[key][0]
+    if chamber_size == 2:
+        return chamber_exits_dict[key][1]
+    
 
 def gen_doors():
     ''''''
@@ -114,6 +123,7 @@ def main():
         print("#3 Corridor size")
         print("#4 Chamber")
         print("#5 Doors- Just for testing")
+        print("#6 Chamber exits- Just for testing")
         print("What would you like to generate?")
         called_gen = input("# ")
         if called_gen == "0":
@@ -134,6 +144,9 @@ def main():
         
         elif called_gen == "5":
             gen_doors()
+        
+        elif called_gen == "6":
+            gen_chamber_exits()
 
 if __name__ == '__main__':
     main()
