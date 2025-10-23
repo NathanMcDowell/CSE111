@@ -79,14 +79,28 @@ def gen_corridor_size(size_range):
     print(f'Size: {corridor_size_dict[size_key]}')
 
 def gen_chamber():
+    CHAMBER_TYPE_INDEX = 0
+    CHAMBER_SIZE_INDEX = 1
     '''Randomly gets a size and shape for the chamber, then gets the number of exits.'''
     chamber_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_d.csv", 2)
     chamber_list = read_data_from_csv_into_list("dnd_map_generator/dnd_chamber_l.csv")
     # Currently returning None
     key = get_random_key(chamber_list, 20)
-    print(chamber_dict[key][0]) 
-    exit_count = gen_chamber_exits(int(chamber_dict[key][1]))
-    print(f'# of exits: {exit_count}')
+    print(chamber_dict[key][CHAMBER_TYPE_INDEX])
+    exit_count = int(gen_chamber_exits(int(chamber_dict[key][CHAMBER_SIZE_INDEX])))
+    door_count, corridor_count = gen_exit_types(exit_count)
+    
+    # Makes the plurality correct in the print.
+    door_plural, corridor_plural = "s", "s"
+    if door_count == 1:
+        door_plural = ""
+    if corridor_count == 1:
+        corridor_plural = ""
+    
+    if door_count == 0 and corridor_count == 0:
+        print("No exits.")
+    else:
+        print(f'Exits: {door_count} door{door_plural} and {corridor_count} 10ft long corridor{corridor_plural}')
 
 def gen_chamber_exits(chamber_size):
     '''Intakes the size of the chamber it is making exits for.'''
@@ -94,23 +108,21 @@ def gen_chamber_exits(chamber_size):
     chamber_exits_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_exits_d.csv", 2)
     chamber_exits_list = read_data_from_csv_into_list("dnd_map_generator/dnd_chamber_exits_l.csv")
     key = get_random_key(chamber_exits_list, 20)
-    print("Chamber exits")
-    print(f'key: {key}')
     if chamber_size == 1:
         return chamber_exits_dict[key][0]
     if chamber_size == 2:
         return chamber_exits_dict[key][1]
     
 def gen_exit_types(exit_count):
+    '''Intakes the number of exits (from gen_chamber_exits) and determines how many are doors vs. corridors.'''
     door_count = 0
     corridor_count = 0
-    for exit in exit_count:
+    for exit in range(0, exit_count):
         one_or_two = random.choice(range(1, 3))
         if one_or_two == 1:
             door_count += 1
         elif one_or_two == 2:
             corridor_count += 1
-    print(door_count, corridor_count)
     return door_count, corridor_count
 
 def gen_doors():
