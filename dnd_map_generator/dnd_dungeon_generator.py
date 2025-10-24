@@ -65,7 +65,10 @@ def gen_corridor():
     corridor_list = read_data_from_csv_into_list("dnd_map_generator/dnd_corridor_l.csv")
     
     key = get_random_key(corridor_list, 20)
-    print(corridor_dict[key])
+    if key == "20":
+        print(f'Stairs: {gen_stairs()}')
+    else:
+        print(corridor_dict[key])
     
 def gen_corridor_size(size_range):
     corridor_size_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_corridor_size_d.csv")
@@ -81,10 +84,9 @@ def gen_corridor_size(size_range):
 def gen_stairs():
     stairs_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_stairs_d.csv")
     stairs_list = read_data_from_csv_into_list("dnd_map_generator/dnd_stairs_l.csv")
-    print("dictionary")
-    print(stairs_dict)
-    print("list")
-    print(stairs_list)
+    key = get_random_key(stairs_list, 20)
+    
+    return stairs_dict[key]
 
 def gen_chamber():
     CHAMBER_TYPE_INDEX = 0
