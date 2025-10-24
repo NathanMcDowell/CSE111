@@ -78,6 +78,14 @@ def gen_corridor_size(size_range):
     size_key = get_random_key(corridor_size_list, die_size)
     print(f'Size: {corridor_size_dict[size_key]}')
 
+def gen_stairs():
+    stairs_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_stairs_d.csv")
+    stairs_list = read_data_from_csv_into_list("dnd_map_generator/dnd_stairs_l.csv")
+    print("dictionary")
+    print(stairs_dict)
+    print("list")
+    print(stairs_list)
+
 def gen_chamber():
     CHAMBER_TYPE_INDEX = 0
     CHAMBER_SIZE_INDEX = 1
@@ -101,6 +109,11 @@ def gen_chamber():
         print("No exits.")
     else:
         print(f'Exits: {door_count} door{door_plural} and {corridor_count} 10ft long corridor{corridor_plural}')
+
+    door_type_list = []
+    for door in range(0, door_count):
+        door_type_list.append(gen_doors())
+    print(", ".join(door_type_list))
 
 def gen_chamber_exits(chamber_size):
     '''Intakes the size of the chamber it is making exits for.'''
@@ -131,10 +144,7 @@ def gen_doors():
     door_type_list = read_data_from_csv_into_list("dnd_map_generator/dnd_door_type_l.csv")
     
     key = get_random_key(door_type_list, 20)
-    print(door_type_dict[key])
-
-def gen_stairs():
-    ''''''
+    return door_type_dict[key]
 
 def main():
     ''''''
@@ -172,7 +182,8 @@ def main():
         
         elif called_gen == "6":
             ''''''
-            gen_exit_types(range(1, 10))
+            # gen_exit_types(range(1, 10))
+            gen_stairs()
 
 if __name__ == '__main__':
     main()
