@@ -173,7 +173,7 @@ def main():
         print("#2 Corridor")
         print("#3 Corridor size")
         print("#4 Chamber")
-        print("#5 Doors- Just for testing")
+        print("#5 Other")
         print("What would you like to generate?")
         called_gen = input("#")
         print()
@@ -194,8 +194,16 @@ def main():
             gen_chamber()
         
         elif called_gen == "5":
-            gen_doors()
-        
+            print("#0 Back")
+            print("#1 Doors")
+            print("#2 Stairs")
+            print("What would you like to generate?")
+            called_gen = input("#")
+            if called_gen == "1":
+                print(gen_doors())
+            elif called_gen == "2":
+                print(gen_stairs())
+
         elif called_gen == "6":
             ''''''
             # gen_exit_types(range(1, 10))
