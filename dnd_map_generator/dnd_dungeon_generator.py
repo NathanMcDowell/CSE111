@@ -8,6 +8,7 @@ dictionaries and lists. The lists have the keys for the dictionaries. get_random
 a random key from the lists. Each gen function uses their own dictionary and list to get a 
 random value through get_random_key. Some are more complicated and pass the information 
 through another function to get more random values.'''
+
 # Dictionary Indexes
 CHANCE_INDEX = 0
 RESULT_INDEX = 1
@@ -162,6 +163,18 @@ def gen_doors():
     key = get_random_key(door_type_list, 20)
     return door_type_dict[key]
 
+def gen_beyond_door():
+    '''Returns a beyond the door. Calls stairs if that key (19) is rolled.'''
+    beyond_door_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_beyond_door_d.csv")
+    beyond_door_list = read_data_from_csv_into_list("dnd_map_generator/dnd_beyond_door_l.csv")
+    
+    key = get_random_key(beyond_door_list, 20)
+    if key == "19":
+        return f'Stairs: {gen_stairs()}'
+    else:
+        return beyond_door_dict[key]
+
+
 def main():
     ''''''
     running = True
@@ -173,7 +186,8 @@ def main():
         print("#2 Corridor")
         print("#3 Corridor size")
         print("#4 Chamber")
-        print("#5 Other")
+        print("#5 Beyond a door")
+        print("#6 Other")
         print("What would you like to generate?")
         called_gen = input("#")
         print()
@@ -194,6 +208,10 @@ def main():
             gen_chamber()
         
         elif called_gen == "5":
+            ''''''
+            print(gen_beyond_door())
+
+        elif called_gen == "6":
             print("#0 Back")
             print("#1 Doors")
             print("#2 Stairs")
@@ -204,10 +222,6 @@ def main():
             elif called_gen == "2":
                 print(gen_stairs())
 
-        elif called_gen == "6":
-            ''''''
-            # gen_exit_types(range(1, 10))
-            gen_stairs()
 
 if __name__ == '__main__':
     main()
