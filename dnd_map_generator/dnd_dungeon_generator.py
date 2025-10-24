@@ -2,7 +2,12 @@ import random
 import csv
 
 
-'''This program will generate instructions for building a random dungeons and dragons map.'''
+'''This program will generate instructions for building a random dungeons and dragons map.
+The first two functions take all the csv files containing the tables and makes the usable 
+dictionaries and lists. The lists have the keys for the dictionaries. get_random_key gets 
+a random key from the lists. Each gen function uses their own dictionary and list to get a 
+random value through get_random_key. Some are more complicated and pass the information 
+through another function to get more random values.'''
 # Dictionary Indexes
 CHANCE_INDEX = 0
 RESULT_INDEX = 1
@@ -12,8 +17,6 @@ RESULT_TWO_INDEX = 2
 LOW_CHANCE_INDEX = 0
 HIGH_CHANCE_INDEX = 1
 KEY_INDEX = 2
-
-#
 
 def read_data_from_csv_into_dictionary(filename, value_count = 1):
     '''Read date from the file poited to by filename and 
@@ -31,7 +34,7 @@ def read_data_from_csv_into_dictionary(filename, value_count = 1):
     return dictionary
 
 def read_data_from_csv_into_list(filename):
-    '''Read date from the file poited to by filename and 
+    '''Read date from the file pointed to by filename and 
     place that data in a dictionary and return it.'''
     final_list = []
     with open (filename, 'rt') as filehandle:
@@ -43,6 +46,9 @@ def read_data_from_csv_into_list(filename):
     return final_list
 
 def get_random_key(percent_lists, die_size):
+    '''Intakes a list and how "rolls a die" based on how big die_size is.
+    It takes that "roll" and finds which index that number is in, then
+    returns it.'''
     num = random.choice(range(1, die_size + 1))
     for list in percent_lists:
         for i in range(int(list[LOW_CHANCE_INDEX]), (int(list[HIGH_CHANCE_INDEX])+1)):
@@ -59,8 +65,8 @@ def gen_starting_area():
     return starting_area
 
 def gen_corridor():
-    '''Makes a random corridor.
-    Optional parameter that decides if the hallway size is predefined.'''
+    '''Makes a random corridor. Calls gen_stairs automatically if Stairs (key == 20) is rolled.'''
+
     corridor_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_corridor_d.csv")
     corridor_list = read_data_from_csv_into_list("dnd_map_generator/dnd_corridor_l.csv")
     
@@ -71,6 +77,9 @@ def gen_corridor():
         print(corridor_dict[key])
     
 def gen_corridor_size(size_range):
+    '''Prints a random corridor size. Intakes if the corridor is a branch off or not. 
+    If it is, use a smaller die.'''
+
     corridor_size_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_corridor_size_d.csv")
     corridor_size_list = read_data_from_csv_into_list("dnd_map_generator/dnd_corridor_size_l.csv")
     
@@ -82,6 +91,7 @@ def gen_corridor_size(size_range):
     print(f'Size: {corridor_size_dict[size_key]}')
 
 def gen_stairs():
+    '''Returns a random stairs string.'''
     stairs_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_stairs_d.csv")
     stairs_list = read_data_from_csv_into_list("dnd_map_generator/dnd_stairs_l.csv")
     key = get_random_key(stairs_list, 20)
@@ -92,11 +102,14 @@ def gen_chamber():
     CHAMBER_TYPE_INDEX = 0
     CHAMBER_SIZE_INDEX = 1
     '''Randomly gets a size and shape for the chamber, then gets the number of exits.'''
+    
     chamber_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_d.csv", 2)
     chamber_list = read_data_from_csv_into_list("dnd_map_generator/dnd_chamber_l.csv")
-    # Currently returning None
+
     key = get_random_key(chamber_list, 20)
+    
     print(chamber_dict[key][CHAMBER_TYPE_INDEX])
+    
     exit_count = int(gen_chamber_exits(int(chamber_dict[key][CHAMBER_SIZE_INDEX])))
     door_count, corridor_count = gen_exit_types(exit_count)
     
@@ -118,7 +131,8 @@ def gen_chamber():
     print(", ".join(door_type_list))
 
 def gen_chamber_exits(chamber_size):
-    '''Intakes the size of the chamber it is making exits for.'''
+    '''Intakes the size of the chamber it is making exits for and uses that information
+    to know which size index to use. Bigger chambers have more exits.'''
     
     chamber_exits_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_chamber_exits_d.csv", 2)
     chamber_exits_list = read_data_from_csv_into_list("dnd_map_generator/dnd_chamber_exits_l.csv")
@@ -141,7 +155,7 @@ def gen_exit_types(exit_count):
     return door_count, corridor_count
 
 def gen_doors():
-    ''''''
+    '''Gets a random door type.'''
     door_type_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_door_type_d.csv")
     door_type_list = read_data_from_csv_into_list("dnd_map_generator/dnd_door_type_l.csv")
     
@@ -189,16 +203,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-'''
-user gives an input
-function is called
-random number is made
-'1, 5, 1-5'
-if number in range(list[START_INDEX], list[END_INDEX])
-    print(dictionary[list[RANGE]])
-'''
-
-
-
-
-
