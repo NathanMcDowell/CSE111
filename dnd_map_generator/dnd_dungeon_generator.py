@@ -74,6 +74,9 @@ def gen_corridor():
     key = get_random_key(corridor_list, 20)
     if key == "20":
         print(f'Stairs: {gen_stairs()}')
+    elif key == "3" or key == "4" or key == "5":
+        print(corridor_dict[key])
+        print(gen_doors())
     else:
         print(corridor_dict[key])
     
