@@ -58,11 +58,14 @@ def get_random_key(percent_lists, die_size):
     value = chosen[KEY_INDEX]
     return value
 
-def gen_starting_area():
+def gen_starting_area(test_key = ""):
     '''Chooses a starting area. This one is simple, so it doesn't need a list for keys.'''
     starting_area_dict = read_data_from_csv_into_dictionary('dnd_map_generator/dnd_starting_area_d.csv')
-    num = str(random.choice(range(1, 11)))
-    starting_area = starting_area_dict[num]
+    if test_key == "":
+        key = str(random.choice(range(1, 11)))
+    else:
+        key = test_key
+    starting_area = starting_area_dict[key]
     return starting_area
 
 def gen_corridor():
@@ -74,6 +77,10 @@ def gen_corridor():
     key = get_random_key(corridor_list, 20)
     if key == "20":
         print(f'Stairs: {gen_stairs()}')
+    elif key == "15-19":
+        print("Chamber:")
+        gen_chamber()
+    
     elif key == "3" or key == "4" or key == "5":
         print(corridor_dict[key])
         print(gen_doors())
@@ -94,11 +101,14 @@ def gen_corridor_size(size_range):
     size_key = get_random_key(corridor_size_list, die_size)
     print(f'Size: {corridor_size_dict[size_key]}')
 
-def gen_stairs():
+def gen_stairs(test_key = ""):
     '''Returns a random stairs string.'''
     stairs_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_stairs_d.csv")
     stairs_list = read_data_from_csv_into_list("dnd_map_generator/dnd_stairs_l.csv")
-    key = get_random_key(stairs_list, 20)
+    if test_key == "":
+        key = get_random_key(stairs_list, 20)
+    else:
+        key = test_key
     
     return stairs_dict[key]
 
@@ -158,20 +168,25 @@ def gen_exit_types(exit_count):
             corridor_count += 1
     return door_count, corridor_count
 
-def gen_doors():
+def gen_doors(test_key = ""):
     '''Gets a random door type.'''
     door_type_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_door_type_d.csv")
     door_type_list = read_data_from_csv_into_list("dnd_map_generator/dnd_door_type_l.csv")
-    
-    key = get_random_key(door_type_list, 20)
+    if test_key == "":
+        key = get_random_key(door_type_list, 20)
+    else:
+        key = test_key
+
     return door_type_dict[key]
 
-def gen_beyond_door():
+def gen_beyond_door(test_key = ""):
     '''Returns a beyond the door. Calls stairs if that key (19) is rolled.'''
     beyond_door_dict = read_data_from_csv_into_dictionary("dnd_map_generator/dnd_beyond_door_d.csv")
     beyond_door_list = read_data_from_csv_into_list("dnd_map_generator/dnd_beyond_door_l.csv")
-    
-    key = get_random_key(beyond_door_list, 20)
+    if test_key == "":
+        key = get_random_key(beyond_door_list, 20)
+    else:
+        key = test_key
     if key == "19":
         return f'Stairs: {gen_stairs()}'
     else:
