@@ -59,7 +59,7 @@ def get_random_key(percent_lists, die_size):
     return value
 
 def gen_starting_area():
-    '''Chooses a starting area.'''
+    '''Chooses a starting area. This one is simple, so it doesn't need a list for keys.'''
     starting_area_dict = read_data_from_csv_into_dictionary('dnd_map_generator/dnd_starting_area_d.csv')
     num = str(random.choice(range(1, 11)))
     starting_area = starting_area_dict[num]
@@ -224,6 +224,9 @@ def main():
                 print(gen_doors())
             elif called_gen == "2":
                 print(gen_stairs())
+        
+        else:
+            print("Enter a valid number")
 
 
 if __name__ == '__main__':
