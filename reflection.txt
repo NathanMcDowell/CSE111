@@ -1,0 +1,21 @@
+Please respond thoroughly (at least two sentences for each question) to
+the following three questions.
+
+1. Describe an experience you had this semester where you saw the power of
+functions.
+In my final project I made a few functions at the beginning that processed some csv files into dictionaries and lists.
+I used those functions so much and it was so easy. I didn't have to rewrite any code or remember exactly how the functions
+worked. I was able to just call them and give the arguments.
+
+
+2. In your judgment, what is the value of test functions?
+Test functions allow you to quickly scan over an entire file without having to poke around in every corner looking for problems.
+
+
+3. Describe your process for troubleshooting and fixing a program that
+has a problem. What is one thing you can do to improve your process?
+My process is to read the error if their is one, then reread the code looking for typos or improper syntax. After that if I haven't
+found the problem I use the debug mode to walk through the program step by step. 
+I could improve this process by testing more frequently to avoid having to comb through large amounts of code.
+
+
